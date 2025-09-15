@@ -110,7 +110,6 @@
           Discover our luxurious collection of timeless flowers and thoughtful gifts,
           carefully curated to express the deepest emotions and create unforgettable moments.
         </p>
-        <div id="categories-bar" class="hidden md:block bg-gray-50 border-b mt-[80px]">
         <div class="mt-6 flex gap-4">
           <a href="#products" class="px-6 py-3 btn-brand rounded-lg shadow-md">Shop Collection</a>
           <a href="#shop" class="px-6 py-3 bg-white text-brand hover:bg-white rounded-lg shadow-md">View Catalog</a>
@@ -157,7 +156,7 @@
           <a href="shop.html" id="shop-see-more" class="px-4 py-2 bg-white border rounded hover:bg-gray-100">See More</a>
         </div>
       </div>
-      <div id="shop-grid" class="mt-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
+      <div id="shop-grid" class="mt-10 grid gap-2" style="grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));"></div>
     </div>
   </section>
 
@@ -214,81 +213,58 @@
   </section>
 
   <!-- Why Choose Us -->
-<section id="why-choose" class="bg-white py-16">
-  <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-    
-    <!-- Text Content -->
-    <div class="order-1 lg:order-1">
-      <h2 class="heading-script text-3xl md:text-4xl mb-3">Why Choose Tewa Blooms?</h2>
-      <p class="text-gray-600 mb-8">
-        We are committed to delivering excellence in every arrangement, ensuring your special moments are celebrated with the finest floral artistry.
-      </p>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        
-        <!-- Feature 1 -->
-        <div class="flex items-start gap-3">
-          <div class="p-3 rounded-full bg-brand/10 text-brand">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M3 7h11a1 1 0 011 1v2h3l3 3v4a1 1 0 01-1 1h-1a3 3 0 11-6 0H9a3 3 0 11-6 0H2a1 1 0 01-1-1V8a1 1 0 011-1zm14 8a1 1 0 100 2 1 1 0 000-2zM6 15a1 1 0 100 2 1 1 0 000-2z"/>
-            </svg>
+  <section id="why-choose" class="bg-white py-16">
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+      <div>
+        <h2 class="heading-script text-3xl md:text-4xl mb-3">Why Choose Tewa Blooms?</h2>
+        <p class="text-gray-600 mb-8">We are committed to delivering excellence in every arrangement, ensuring your special moments are celebrated with the finest floral artistry.</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div class="flex items-start gap-3">
+            <div class="p-3 rounded-full bg-brand/10 text-brand">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M3 7h11a1 1 0 011 1v2h3l3 3v4a1 1 0 01-1 1h-1a3 3 0 11-6 0H9a3 3 0 11-6 0H2a1 1 0 01-1-1V8a1 1 0 011-1zm14 8a1 1 0 100 2 1 1 0 000-2zM6 15a1 1 0 100 2 1 1 0 000-2z"/></svg>
+            </div>
+            <div>
+              <div class="font-semibold text-gray-800">Same-Day Delivery</div>
+              <div class="text-sm text-gray-600">Fresh flowers delivered within hours of your order</div>
+            </div>
           </div>
-          <div>
-            <div class="font-semibold text-gray-800">Same-Day Delivery</div>
-            <div class="text-sm text-gray-600">Fresh flowers delivered within hours of your order</div>
+
+          <div class="flex items-start gap-3">
+            <div class="p-3 rounded-full bg-brand/10 text-brand">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-3.5L6 21l1.5-7.5L2 9h7z"/></svg>
+            </div>
+            <div>
+              <div class="font-semibold text-gray-800">Premium Quality</div>
+              <div class="text-sm text-gray-600">Hand-selected flowers from the finest growers</div>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-3">
+            <div class="p-3 rounded-full bg-brand/10 text-brand">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M4 2h6l2 3h8a1 1 0 011 1v3H3V3a1 1 0 011-1zm-1 9h20v10a1 1 0 01-1 1H4a1 1 0 01-1-1V11zm6 2a3 3 0 100 6 3 3 0 000-6z"/></svg>
+            </div>
+            <div>
+              <div class="font-semibold text-gray-800">Custom Designs</div>
+              <div class="text-sm text-gray-600">Bespoke arrangements tailored to your vision</div>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-3">
+            <div class="p-3 rounded-full bg-brand/10 text-brand">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a5 5 0 00-5 5v2a3 3 0 00-3 3v2a3 3 0 003 3h1v-6H6V9a6 6 0 1112 0v1h-2v6h1a3 3 0 003-3v-2a3 3 0 00-3-3V6a5 5 0 00-5-5z"/></svg>
+            </div>
+            <div>
+              <div class="font-semibold text-gray-800">Expert Support</div>
+              <div class="text-sm text-gray-600">Professional florists available for consultation</div>
+            </div>
           </div>
         </div>
-
-        <!-- Feature 2 -->
-        <div class="flex items-start gap-3">
-          <div class="p-3 rounded-full bg-brand/10 text-brand">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-3.5L6 21l1.5-7.5L2 9h7z"/>
-            </svg>
-          </div>
-          <div>
-            <div class="font-semibold text-gray-800">Premium Quality</div>
-            <div class="text-sm text-gray-600">Hand-selected flowers from the finest growers</div>
-          </div>
-        </div>
-
-        <!-- Feature 3 -->
-        <div class="flex items-start gap-3">
-          <div class="p-3 rounded-full bg-brand/10 text-brand">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M4 2h6l2 3h8a1 1 0 011 1v3H3V3a1 1 0 011-1zm-1 9h20v10a1 1 0 01-1 1H4a1 1 0 01-1-1V11zm6 2a3 3 0 100 6 3 3 0 000-6z"/>
-            </svg>
-          </div>
-          <div>
-            <div class="font-semibold text-gray-800">Custom Designs</div>
-            <div class="text-sm text-gray-600">Bespoke arrangements tailored to your vision</div>
-          </div>
-        </div>
-
-        <!-- Feature 4 -->
-        <div class="flex items-start gap-3">
-          <div class="p-3 rounded-full bg-brand/10 text-brand">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 1a5 5 0 00-5 5v2a3 3 0 00-3 3v2a3 3 0 003 3h1v-6H6V9a6 6 0 1112 0v1h-2v6h1a3 3 0 003-3v-2a3 3 0 00-3-3V6a5 5 0 00-5-5z"/>
-            </svg>
-          </div>
-          <div>
-            <div class="font-semibold text-gray-800">Expert Support</div>
-            <div class="text-sm text-gray-600">Professional florists available for consultation</div>
-          </div>
-        </div>
-
+      </div>
+      <div class="order-first lg:order-none">
+        <img src="assets/choose us/choose us.jpg" alt="Why choose us" class="rounded-3xl shadow-xl w-full h-[26rem] object-cover">
       </div>
     </div>
-
-    <!-- Image -->
-    <div class="order-2 lg:order-2">
-      <img src="assets/choose us/choose us.jpg" alt="Why choose us flowers" 
-           class="rounded-3xl shadow-xl w-full h-[26rem] object-cover">
-    </div>
-    
-  </div>
-</section>
-
+  </section>
 
   <!-- Contact -->
   <section id="contact" class="bg-white py-16">
@@ -361,7 +337,7 @@
               </svg>
               <span>
                 Monday - Friday: 9:00 AM - 6:00 PM <br>
-                Saturday: 9:00 AM - 6:00 PM
+                Saturday - Sunday: 9:00 AM - 6:00 PM
               </span>
             </p>
           </div>
@@ -420,12 +396,13 @@
       <div>
         <h4 class="text-white font-semibold mb-3">Quick Links</h4>
         <ul class="space-y-2 text-sm">
-          <li><a href="#home" class="hover:text-white">Home</a></li>
-          <li><a href="#shop" class="hover:text-white">Shop</a></li>
-          <li><a href="#about" class="hover:text-white">About Us</a></li>
-          <li><a href="#contact" class="hover:text-white">Contact</a></li>
+          <li><a href="#" class="hover:text-white">Home</a></li>
+          <li><a href="#" class="hover:text-white">Shop</a></li>
+          <li><a href="#" class="hover:text-white">About Us</a></li>
+          <li><a href="#" class="hover:text-white">Contact</a></li>
+          <li><a href="#" class="hover:text-white">Delivery Info</a></li>
+          <li><a href="#" class="hover:text-white">Care Guide</a></li>
         </ul>
-
       </div>
 
       <!-- Categories -->
