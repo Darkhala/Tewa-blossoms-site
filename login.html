@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Login • Tewa Blooms</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="icon" href="assets/logo.png" type="image/png">
+  <style>
+    :root { --brand-brown:#7B4A3A; --brand-brown-dark:#6A3F33; --brand-cream:#F5EEE6; }
+    .btn-brand { background-color: var(--brand-brown); color: #fff; }
+    .btn-brand:hover { background-color: var(--brand-brown-dark); }
+    .text-brand { color: var(--brand-brown); }
+    body { background: radial-gradient(1200px 600px at 10% 10%, rgba(123,74,58,.06), transparent), var(--brand-cream); }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+  <div class="w-full max-w-md">
+    <div class="bg-white shadow-2xl rounded-2xl overflow-hidden border border-gray-100">
+      <div class="p-6 text-center">
+        <img src="assets/Tewa logo.jpeg" alt="Tewa Blooms" class="mx-auto w-16 h-16 object-cover rounded-full"/>
+        <h1 class="mt-3 text-2xl font-semibold text-gray-900">Admin Login</h1>
+        <p class="text-sm text-gray-500 mt-1">Sign in with your admin email and password</p>
+      </div>
+      <form id="login-form" class="px-6 pb-6 space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+          <input id="email" type="email" autocomplete="username" required placeholder="you@example.com"
+                 class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-yellow-900 focus:outline-none" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+          <input id="password" type="password" autocomplete="current-password" required placeholder="••••••••"
+                 class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-yellow-900 focus:outline-none" />
+        </div>
+        <div id="error" class="hidden text-sm text-red-600"></div>
+        <button id="submit" type="submit" class="w-full btn-brand rounded-lg py-2.5 font-medium flex items-center justify-center gap-2">
+          <span>Sign In</span>
+          <svg id="spinner" class="hidden animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+          </svg>
+        </button>
+      </form>
+    </div>
+    <div class="text-center text-xs text-gray-500 mt-4">© 2025 Tewa Blooms</div>
+  </div>
+
+  <script type="module">
+    import { supabase, redirectIfAuthed } from './js/supabaseClient.js';
+
+    // If already signed in, go to dashboard
+    redirectIfAuthed('admin.html');
+
+    const form = document.getElementById('login-form');
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    const submit = document.getElementById('submit');
+    const spinner = document.getElementById('spinner');
+    const errorBox = document.getElementById('error');
+
+    function setLoading(v){
+      submit.disabled = v;
+      spinner.classList.toggle('hidden', !v);
+    }
+    function showError(msg){
+      errorBox.textContent = msg;
+      errorBox.classList.remove('hidden');
+    }
+
+    form.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      errorBox.classList.add('hidden');
+      setLoading(true);
+      try{
+        const { error } = await supabase.auth.signInWithPassword({
+          email: email.value.trim(),
+          password: password.value,
+        });
+        if(error) throw error;
+        window.location.href = 'admin.html';
+      }catch(err){
+        showError(err.message || 'Login failed');
+      }finally{
+        setLoading(false);
+      }
+    });
+  </script>
+</body>
+</html>

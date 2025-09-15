@@ -1,0 +1,602 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Tewa Blooms</title>
+  <!-- Tailwind CDN (development only) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Site styles -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome 5 (icons) - replaces broken kit script -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+  <!-- Favicon -->
+  <link rel="icon" href="assets/logo.png" type="image/png">
+
+  <style>
+    .custom-serif {
+      font-family: 'Times New Roman', Times, Georgia, serif;
+    }
+    :root {
+      --brand-brown: #7B4A3A;      /* primary brown */
+      --brand-brown-dark: #6A3F33; /* darker hover */
+      --brand-cream: #F5EEE6;      /* soft cream background */
+    }
+    .btn-brand { background-color: var(--brand-brown); color: #fff; }
+    .btn-brand:hover { background-color: var(--brand-brown-dark); }
+    .text-brand { color: var(--brand-brown); }
+    .hover-text-brand-dark:hover { color: var(--brand-brown-dark); }
+    .bg-brand { background-color: var(--brand-brown); }
+    .bg-cream { background-color: var(--brand-cream); }
+    .hover-bg-brand:hover { background-color: var(--brand-brown); }
+    .heading-script { font-family: 'Dancing Script', cursive; font-weight: 700; color: var(--brand-brown); }
+  </style>
+</head>
+<body class="bg-cream text-gray-800 scroll-smooth font-serif custom-serif">
+
+  <!-- Top bar -->
+  <div class="border-b bg-white fixed w-full top-0 z-[100] shadow-sm">
+    <div class="max-w-7xl mx-auto flex items-center justify-between p-3">
+      <!-- Logo -->
+      <div class="flex items-center gap-3">
+        <img src="assets/Tewa logo.jpeg" alt="logo" class="h-12 w-12 object-cover rounded-full bg-rose-100">
+        <div class="text-brand font-bold text-lg" style="font-family: 'Dancing Script', cursive;">Tewa Blooms</div>
+      </div>
+
+      <!-- Nav -->
+      <nav class="hidden md:flex gap-6 text-sm font-medium text-gray-700">
+        <a href="#products" class="hover-text-brand-dark">Shop</a>
+        <div id="header-categories-dropdown" class="relative">
+          <button id="header-categories-btn" class="hover-text-brand-dark flex items-center gap-1">
+            Categories
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          <div id="header-categories-menu" class="hidden absolute left-0 mt-2 w-48 bg-white border rounded shadow-lg z-[60] max-h-64 overflow-auto"></div>
+        </div>
+        <a href="#about" class="hover-text-brand-dark">About</a>
+        <a href="#contact" class="hover-text-brand-dark">Contact</a>
+      </nav>
+
+      <!-- Icons -->
+      <div class="flex items-center gap-3">
+        <button id="mobile-menu-btn" class="md:hidden p-2 rounded hover:bg-gray-100" aria-label="Open menu">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-brand" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <!-- Cart -->
+        <button id="cart-btn" class="relative">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-brand hover-text-brand-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.25 3h1.5l1.5 12.75h12.75l1.5-9H6M9 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm9 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+          </svg>
+          <span id="cart-count" class="absolute -top-1 -right-1 bg-brand text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">0</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="mobile-menu" class="md:hidden hidden border-b bg-white">
+    <nav class="max-w-7xl mx-auto p-3 flex flex-col gap-3 text-sm font-medium text-gray-700">
+      <a href="#products" class="hover-text-brand-dark">Shop</a>
+      <a href="#about" class="hover-text-brand-dark">About</a>
+      <a href="#contact" class="hover-text-brand-dark">Contact</a>
+    </nav>
+  </div>
+
+  <!-- Categories Bar -->
+  <div id="categories-bar" class="bg-gray-50 border-b mt-[80px]">
+    <div class="max-w-7xl mx-auto flex gap-4 overflow-x-auto p-3 text-sm font-medium text-gray-700">
+      <!-- Injected dynamically -->
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <section id="hero" class="relative min-h-screen md:h-[90vh] flex items-center justify-center bg-cover bg-center bg-fixed" style="background-image: url('assets/hero bg.jpeg');">
+    <!-- Soft warm overlay -->
+    <div class="absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-transparent"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between px-6">
+      <!-- Left text -->
+      <div class="text-white max-w-xl">
+        <h1 class="text-5xl md:text-6xl font-bold leading-tight">
+          Where Love Blooms <br>
+          <span class="text-brand">Eternal</span>
+        </h1>
+        <p class="mt-4 text-lg text-gray-100">
+          Discover our luxurious collection of timeless flowers and thoughtful gifts,
+          carefully curated to express the deepest emotions and create unforgettable moments.
+        </p>
+        <div class="mt-6 flex gap-4">
+          <a href="#products" class="px-6 py-3 btn-brand rounded-lg shadow-md">Shop Collection</a>
+          <a href="#shop" class="px-6 py-3 bg-white text-brand hover:bg-white rounded-lg shadow-md">View Catalog</a>
+        </div>
+      </div>
+
+      <!-- Floating card -->
+      <div class="bg-white/20 backdrop-blur-lg rounded-2xl shadow-2xl p-6 w-80 mt-10 md:mt-0 md:ml-8 border border-white/30">
+        <img src="assets/ad flower.jpeg" alt="bouquet" class="rounded-lg w-full h-56 object-cover shadow-md">
+        <div class="mt-4">
+          <h3 class="text-lg font-semibold text-gray-900">Eternal Romance</h3>
+          <p class="text-sm text-white-200">Premium burgundy roses with delicate accents</p>
+          <div class="mt-3 flex justify-between items-center">
+            <span class="text-brand font-bold text-lg">Up to 40% Off!!</span>
+            <button class="px-4 py-2 btn-brand text-white rounded-md text-sm">Shop</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Collections -->
+  <section id="featured" class="bg-cream py-14">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-10">
+        <h2 class="heading-script text-3xl md:text-4xl">Featured Collections</h2>
+        <p class="mt-3 text-gray-600">Discover our handpicked selection of premium floral arrangements, each crafted with the finest blooms and artistic expertise.</p>
+      </div>
+      <div id="featured-cards-grid" class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <!-- JS will inject feature cards here -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Shop -->
+  <section id="shop" class="bg-cream py-16 border-t border-[#7b2d26]">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="heading-script text-2xl">Our Shop</h2>
+          <p class="text-sm text-gray-600">Explore our full selection</p>
+        </div>
+        <div>
+          <a href="shop.html" id="shop-see-more" class="px-4 py-2 bg-white border rounded hover:bg-gray-100">See More</a>
+        </div>
+      </div>
+      <div id="shop-grid" class="mt-10 grid gap-2" style="grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));"></div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="bg-white py-16">
+    <div class="container mx-auto px-6 lg:px-20 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <!-- Left Content -->
+      <div>
+        <h2 class="heading-script text-2xl md:text-3xl mb-6">About Tewa Blooms</h2>
+        <p class="text-gray-700 leading-relaxed mb-4">
+          For over five years, Tewa Blooms & Gift Heaven has been crafting moments of joy and connection through the timeless beauty of flowers and thoughtful gifts. Our passion lies in transforming emotions into elegant arrangements that speak the language of the heart.
+        </p>
+        <p class="text-gray-700 leading-relaxed mb-6">
+          Every bouquet tells a story, every gift carries a message, and every arrangement is a work of art designed to create lasting memories. We source only the finest flowers and curate exceptional gifts to ensure your special moments are truly unforgettable.
+        </p>
+
+        <!-- Stats -->
+        <div class="flex flex-wrap gap-8 mb-6">
+          <div>
+            <p class="text-2xl font-bold text-brand">5+</p>
+            <p class="text-sm text-gray-600">Years Experience</p>
+          </div>
+          <div>
+            <p class="text-2xl font-bold text-brand">100+</p>
+            <p class="text-sm text-gray-600">Happy Customers</p>
+          </div>
+          <div>
+            <p class="text-2xl font-bold text-brand">50+</p>
+            <p class="text-sm text-gray-600">Unique Products</p>
+          </div>
+        </div>
+
+        <!-- Checklist -->
+        <ul class="space-y-2 text-gray-700 mb-6">
+          <li class="flex items-center gap-2"><span class="text-green-600">✔</span> Premium quality flowers sourced daily</li>
+          <li class="flex items-center gap-2"><span class="text-green-600">✔</span> Expert floral designers and gift curators</li>
+          <li class="flex items-center gap-2"><span class="text-green-600">✔</span> Same-day delivery available</li>
+          <li class="flex items-center gap-2"><span class="text-green-600">✔</span> 100% satisfaction guarantee</li>
+        </ul>
+
+        <!-- Button -->
+        <a href="#" class="inline-block btn-brand text-white font-medium px-6 py-3 rounded-md transition">Learn More About Us</a>
+      </div>
+
+      <!-- Right Content (Image with Overlay) -->
+      <div class="relative">
+        <img src="assets/about.jpeg" alt="Flower Arrangement" class="rounded-2xl shadow-lg w-full object-cover">
+        <div class="absolute bottom-4 left-4 bg-black bg-opacity-60 text-white px-4 py-2 rounded-md">
+          <p class="font-semibold">Crafted with Love</p>
+          <p class="text-sm">Every arrangement is a masterpiece</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us -->
+  <section id="why-choose" class="bg-white py-16">
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+      <div>
+        <h2 class="heading-script text-3xl md:text-4xl mb-3">Why Choose Tewa Blooms?</h2>
+        <p class="text-gray-600 mb-8">We are committed to delivering excellence in every arrangement, ensuring your special moments are celebrated with the finest floral artistry.</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div class="flex items-start gap-3">
+            <div class="p-3 rounded-full bg-brand/10 text-brand">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M3 7h11a1 1 0 011 1v2h3l3 3v4a1 1 0 01-1 1h-1a3 3 0 11-6 0H9a3 3 0 11-6 0H2a1 1 0 01-1-1V8a1 1 0 011-1zm14 8a1 1 0 100 2 1 1 0 000-2zM6 15a1 1 0 100 2 1 1 0 000-2z"/></svg>
+            </div>
+            <div>
+              <div class="font-semibold text-gray-800">Same-Day Delivery</div>
+              <div class="text-sm text-gray-600">Fresh flowers delivered within hours of your order</div>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-3">
+            <div class="p-3 rounded-full bg-brand/10 text-brand">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-3.5L6 21l1.5-7.5L2 9h7z"/></svg>
+            </div>
+            <div>
+              <div class="font-semibold text-gray-800">Premium Quality</div>
+              <div class="text-sm text-gray-600">Hand-selected flowers from the finest growers</div>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-3">
+            <div class="p-3 rounded-full bg-brand/10 text-brand">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M4 2h6l2 3h8a1 1 0 011 1v3H3V3a1 1 0 011-1zm-1 9h20v10a1 1 0 01-1 1H4a1 1 0 01-1-1V11zm6 2a3 3 0 100 6 3 3 0 000-6z"/></svg>
+            </div>
+            <div>
+              <div class="font-semibold text-gray-800">Custom Designs</div>
+              <div class="text-sm text-gray-600">Bespoke arrangements tailored to your vision</div>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-3">
+            <div class="p-3 rounded-full bg-brand/10 text-brand">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a5 5 0 00-5 5v2a3 3 0 00-3 3v2a3 3 0 003 3h1v-6H6V9a6 6 0 1112 0v1h-2v6h1a3 3 0 003-3v-2a3 3 0 00-3-3V6a5 5 0 00-5-5z"/></svg>
+            </div>
+            <div>
+              <div class="font-semibold text-gray-800">Expert Support</div>
+              <div class="text-sm text-gray-600">Professional florists available for consultation</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="order-first lg:order-none">
+        <img src="assets/choose us/choose us.jpg" alt="Why choose us" class="rounded-3xl shadow-xl w-full h-[26rem] object-cover">
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="bg-white py-16">
+    <div class="container mx-auto px-6 lg:px-20">
+      <!-- Heading -->
+      <div class="text-center mb-12">
+        <h2 class="heading-script text-2xl md:text-3xl mb-4">Get In Touch</h2>
+        <p class="text-gray-600">Have a question or special request? We'd love to hear from you and help make your floral dreams come true</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <!-- Contact Form -->
+        <div class="bg-gray-50 rounded-2xl shadow p-8">
+          <h3 class="text-lg font-semibold text-red-900 mb-6">Send us a Message</h3>
+          <form action="#" method="POST" class="space-y-5">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+              <input type="text" placeholder="Enter your full name" class="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-red-900 focus:outline-none"/>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+              <input type="email" placeholder="Enter your email address" class="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-red-900 focus:outline-none"/>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+              <input type="text" placeholder="Enter your phone number" class="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-red-900 focus:outline-none"/>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+              <textarea placeholder="Tell us about your floral needs..." class="w-full border rounded-md px-4 py-2 h-28 focus:ring-2 focus:ring-red-900 focus:outline-none"></textarea>
+            </div>
+            <button type="submit" class="w-full bg-red-900 text-white py-3 rounded-md font-medium hover:bg-red-700 transition">Send Message</button>
+          </form>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="space-y-8">
+          <h3 class="heading-script text-xl">Contact Information</h3>
+          <div class="space-y-4 text-gray-700">
+            <!-- Location -->
+            <p class="flex items-start gap-3">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-red-900" viewBox="0 0 24 24" fill="currentColor">
+                <ellipse cx="12" cy="21" rx="5" ry="2" fill="rgba(0,0,0,0.2)"/>
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="currentColor"/>
+                <circle cx="12" cy="9" r="3" fill="#fff"/>
+              </svg>
+              Nairobi, CBD<br>Nairobi, Kenya 00100
+            </p>
+
+            <!-- Phone -->
+            <p class="flex items-start gap-3">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-red-900" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.11-.21c1.21.49 2.53.76 3.88.76a1 1 0 011 1v3.5a1 1 0 01-1 1C10.07 21 3 13.93 3 5a1 1 0 011-1h3.5a1 1 0 011 1c0 1.35.27 2.67.76 3.88.1.24.04.52-.21 1.11l-2.43 2.8z"/>
+              </svg>
+              <span>+254 757 399 339</span>
+            </p>
+
+            <!-- Email -->
+            <p class="flex items-start gap-3">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-red-900" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 2l-8 5-8-5h16zm0 12H4V8l8 5 8-5v10z"/>
+              </svg>
+              <span>tewablooms@gmail.com</span>
+            </p>
+
+            <!-- Hours -->
+            <p class="flex items-start gap-3">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-red-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              <span>
+                Monday - Friday: 9:00 AM - 6:00 PM <br>
+                Saturday - Sunday: 9:00 AM - 6:00 PM
+              </span>
+            </p>
+          </div>
+
+          <!-- Socials -->
+          <div>
+            <h3 class="text-lg font-semibold text-red-900 mb-3">Follow Us</h3>
+            <div class="flex space-x-4">
+              <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-red-100">
+                <i class="fab fa-facebook text-brand"></i>
+              </a>
+              <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-red-100">
+                <i class="fab fa-instagram text-brand"></i>
+              </a>
+              <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-red-100">
+                <i class="fab fa-twitter text-brand"></i>
+              </a>
+              <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-red-100">
+                <i class="fab fa-pinterest text-brand"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="text-white text-center py-20 px-4 bg-cover bg-center" style="background-image: url('assets/CTAbg.jpeg'); background-blend-mode: multiply;">
+    <h2 class="text-3xl md:text-4xl font-bold mb-4">Ready to Spread Joy?</h2>
+    <p class="text-base md:text-lg max-w-2xl mx-auto mb-8">
+      Join thousands of satisfied customers who trust us to deliver happiness through beautiful flowers and thoughtful gifts.
+    </p>
+    <div class="flex justify-center gap-4">
+      <a href="#shop" class="bg-white text-red-900 px-6 py-2 md:px-8 md:py-3 rounded-md font-medium text-sm md:text-base shadow hover:bg-gray-100 transition">Start Shopping Now</a>
+      <a href="#catalog" class="border border-white px-6 py-2 md:px-8 md:py-3 rounded-md font-medium text-sm md:text-base hover:bg-white hover:text-red-900 transition">View Our Catalog</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-gray-300 py-12">
+    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-4 gap-8">
+      <!-- Brand -->
+      <div>
+        <h3 class="text-lg font-bold text-white mb-3">Tewa Blooms</h3>
+        <p class="text-sm mb-4">Creating beautiful moments through premium flowers and thoughtful gifts. Your trusted partner for all occasions.</p>
+        <div class="flex gap-3">
+          <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook"></i></a>
+          <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-pinterest"></i></a>
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div>
+        <h4 class="text-white font-semibold mb-3">Quick Links</h4>
+        <ul class="space-y-2 text-sm">
+          <li><a href="#" class="hover:text-white">Home</a></li>
+          <li><a href="#" class="hover:text-white">Shop</a></li>
+          <li><a href="#" class="hover:text-white">About Us</a></li>
+          <li><a href="#" class="hover:text-white">Contact</a></li>
+          <li><a href="#" class="hover:text-white">Delivery Info</a></li>
+          <li><a href="#" class="hover:text-white">Care Guide</a></li>
+        </ul>
+      </div>
+
+      <!-- Categories -->
+      <div>
+        <h4 class="text-white font-semibold mb-3">Categories</h4>
+        <ul class="space-y-2 text-sm">
+          <li><a href="#" class="hover:text-white">Fresh Flowers</a></li>
+          <li><a href="#" class="hover:text-white">Bouquets</a></li>
+          <li><a href="#" class="hover:text-white">Gift Sets</a></li>
+          <li><a href="#" class="hover:text-white">Wedding Flowers</a></li>
+          <li><a href="#" class="hover:text-white">Corporate Gifts</a></li>
+          <li><a href="#" class="hover:text-white">Seasonal Specials</a></li>
+        </ul>
+      </div>
+
+      <!-- Newsletter -->
+      <div>
+        <h4 class="text-white font-semibold mb-3">Newsletter</h4>
+        <p class="text-sm mb-4">Subscribe to get special offers and updates</p>
+        <form class="flex">
+          <input type="email" placeholder="Your email address" class="px-3 py-2 rounded-l-md focus:outline-none text-gray-800 w-full">
+          <button class="btn-brand px-4 py-2 rounded-r-md text-white">Subscribe</button>
+        </form>
+        <div class="mt-4 text-sm">
+          <p class="mb-1">📞 +254 757 399 339</p>
+          <p>📧 tewablooms@gmail.com</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-10 text-center text-gray-500 text-sm border-t border-gray-700 pt-6">© 2025 Tewa Blooms. All rights reserved.</div>
+  </footer>
+
+  <!-- Cart Modal -->
+  <div id="cart-modal" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+    <div class="bg-white rounded-2xl shadow-lg w-96 max-h-[80vh] flex flex-col">
+      <div class="flex justify-between items-center border-b p-4">
+        <h2 class="text-lg font-bold text-gray-800">Your Cart</h2>
+        <button onclick="closeCart()" class="text-gray-600 hover-text-brand-dark text-2xl">&times;</button>
+      </div>
+      <div id="cart-items" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
+      <div class="border-t p-4">
+        <div class="flex justify-between font-semibold mb-3">
+          <span>Total:</span>
+          <span id="cart-total">KES 0.00</span>
+        </div>
+        <button class="w-full btn-brand text-white py-2 rounded-lg">Checkout</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Modal -->
+  <div id="product-modal" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+    <div class="bg-white rounded-2xl shadow-2xl w-[95%] max-w-3xl max-h-[90vh] overflow-hidden">
+      <div class="relative grid grid-cols-1 md:grid-cols-2">
+        <button id="pm-close" class="absolute top-3 right-3 text-gray-600 hover-text-brand-dark text-2xl leading-none">&times;</button>
+        <div class="bg-gray-100">
+          <img id="pm-img" src="" alt="" class="w-full h-80 md:h-full object-cover">
+        </div>
+        <div class="p-5 flex flex-col gap-3">
+          <h3 id="pm-name" class="text-xl font-semibold text-gray-900"></h3>
+          <div class="flex items-center gap-2">
+            <span id="pm-price" class="text-brand font-bold text-lg"></span>
+            <span id="pm-original" class="text-gray-400 line-through text-sm"></span>
+            <span id="pm-discount" class="text-[11px] bg-green-100 text-green-600 px-2 py-0.5 rounded hidden"></span>
+          </div>
+          <p id="pm-desc" class="text-sm text-gray-700"></p>
+          <div class="mt-4 flex gap-3">
+            <button id="pm-wa-btn" class="flex-1 btn-brand text-white py-2 rounded-lg">Order on WhatsApp</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main script -->
+  <script type="module" src="js/main.js"></script>
+
+  <!-- Floating AI Assistant -->
+  <button id="ai-toggle" aria-label="Open assistant"
+          class="fixed bottom-6 right-6 z-[130] btn-brand w-14 h-14 rounded-full shadow-lg flex items-center justify-center">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 3C6.48 3 2 6.94 2 11.8c0 2.55 1.3 4.85 3.4 6.45-.1.77-.5 2.04-1.9 3.5 2.2-.32 3.8-1.2 4.7-1.86 1.26.42 2.63.66 4.1.66 5.52 0 10-3.94 10-8.8S17.52 3 12 3z"/>
+    </svg>
+  </button>
+
+  <div id="ai-chat" class="fixed bottom-24 right-6 z-[130] w-80 max-w-[90vw] bg-white rounded-2xl shadow-2xl border hidden flex flex-col">
+    <div class="flex items-center justify-between p-3 border-b">
+      <div class="heading-script text-xl">Tewa Assistant</div>
+      <button id="ai-close" class="text-gray-500 hover:text-brand text-2xl leading-none">&times;</button>
+    </div>
+    <div id="ai-messages" class="p-3 space-y-3 overflow-y-auto" style="max-height: 55vh;">
+      <div class="flex items-start gap-2">
+        <div class="p-2 rounded-full bg-brand/10 text-brand">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C6.48 3 2 6.94 2 11.8c0 2.55 1.3 4.85 3.4 6.45-.1.77-.5 2.04-1.9 3.5 2.2-.32 3.8-1.2 4.7-1.86 1.26.42 2.63.66 4.1.66 5.52 0 10-3.94 10-8.8S17.52 3 12 3z"/></svg>
+        </div>
+        <div class="bg-gray-50 rounded-2xl px-3 py-2 text-sm">
+          Hi! I’m your virtual assistant. Ask me about delivery, categories, prices, or how to order on WhatsApp.
+          <div id="ai-suggestions" class="mt-2 flex flex-wrap gap-2">
+            <button data-q="Do you do same-day delivery?" class="px-2 py-1 text-xs border rounded-full">Same‑day delivery</button>
+            <button data-q="What categories do you have?" class="px-2 py-1 text-xs border rounded-full">Categories</button>
+            <button data-q="How do I order on WhatsApp?" class="px-2 py-1 text-xs border rounded-full">Order on WhatsApp</button>
+            <button data-q="What are your price ranges?" class="px-2 py-1 text-xs border rounded-full">Price ranges</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="p-3 border-t flex items-center gap-2">
+      <input id="ai-input" type="text" placeholder="Type your question..." class="flex-1 border rounded-md px-3 py-2 text-sm" />
+      <button id="ai-send" class="btn-brand px-3 py-2 rounded-md text-sm">Send</button>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      const toggle = document.getElementById('ai-toggle');
+      const panel = document.getElementById('ai-chat');
+      const closeBtn = document.getElementById('ai-close');
+      const input = document.getElementById('ai-input');
+      const sendBtn = document.getElementById('ai-send');
+      const messages = document.getElementById('ai-messages');
+      const suggestions = document.getElementById('ai-suggestions');
+
+      function openPanel(){ panel.classList.remove('hidden'); input.focus(); }
+      function closePanel(){ panel.classList.add('hidden'); }
+      toggle.addEventListener('click', openPanel);
+      closeBtn.addEventListener('click', closePanel);
+      document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closePanel(); });
+
+      function appendMessage(role, text){
+        const row = document.createElement('div');
+        row.className = 'flex items-start gap-2 ' + (role==='user' ? 'justify-end' : '');
+        if(role==='user'){
+          row.innerHTML = `<div class="bg-brand text-white rounded-2xl px-3 py-2 text-sm max-w-[80%]">${escapeHtml(text)}</div>`;
+        } else {
+          row.innerHTML = `
+            <div class="p-2 rounded-full bg-brand/10 text-brand">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C6.48 3 2 6.94 2 11.8c0 2.55 1.3 4.85 3.4 6.45-.1.77-.5 2.04-1.9 3.5 2.2-.32 3.8-1.2 4.7-1.86 1.26.42 2.63.66 4.1.66 5.52 0 10-3.94 10-8.8S17.52 3 12 3z"/></svg>
+            </div>
+            <div class="bg-gray-50 rounded-2xl px-3 py-2 text-sm max-w-[80%]">${escapeHtml(text)}</div>`;
+        }
+        messages.appendChild(row);
+        messages.scrollTop = messages.scrollHeight;
+      }
+
+      function escapeHtml(s){ return s.replace(/[&<>\"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c])); }
+
+      function getResponse(q){
+        const t = (q||'').toLowerCase();
+        const phone = '+254 757 399 339';
+        const wa = 'https://wa.me/254757399339';
+        if(/\b(hi|hello|hey)\b/.test(t)) return 'Hello! I can help with delivery, categories, pricing, WhatsApp orders, hours and more.';
+        if(/what.*(deal|about|offer|sell)|do you (sell|offer)/.test(t)) return 'We create and deliver premium flowers and thoughtful gifts in Nairobi: bouquets, hand‑tied arrangements, hampers, chocolates & cakes, bridal flowers, corporate gifts and more.';
+        if(/deliver|delivery|ship/.test(t)) return 'Yes — we deliver across Nairobi. Same‑day delivery is available daily 9:00 AM – 6:00 PM. Share your order and location and we will confirm timing.';
+        if(/same[-\s]?day/.test(t)) return 'Same‑day delivery: order within our hours (9:00 AM – 6:00 PM) and we’ll dispatch within hours of confirmation.';
+        if(/category|categories|catalog/.test(t)) return 'Popular categories: For her, For him, Birthday Hampers, Anniversary Blooms, I\'m sorry Flowers, Hand‑tied arrangements, Sympathy & Funeral, Chocolate & Cakes, Gift Hampers.';
+        if(/chocolate|cake|cakes|hamper|hampers/.test(t)) return 'Yes, we have Chocolate & Cakes and Gift Hampers categories. You can filter them on the Shop page or ask for a custom bundle.';
+        if(/price|cost|range/.test(t)) return 'Typical price ranges (KES): 0–1k, 1k–3k, 3k–5k, 5k–10k, 10k–20k, and 20k+. Use filters on the Shop page to quickly narrow down.';
+        if(/order|buy|purchase/.test(t)) return `Add items to cart and hit Checkout, or order directly on WhatsApp here: ${wa}. We’ll confirm details and delivery.`;
+        if(/whatsapp|chat/.test(t)) return `You can message us on WhatsApp: ${phone} (${wa}). Your cart checkout also opens WhatsApp with your order prefilled.`;
+        if(/hour|time|open|close/.test(t)) return 'We are open daily 9:00 AM – 6:00 PM.';
+        if(/location|where/.test(t)) return 'We are in Nairobi, CBD. Delivery across Nairobi. Pick‑up can be arranged on request.';
+        if(/contact|phone|call|number/.test(t)) return `Phone/WhatsApp: ${phone} • Email: tewablooms@gmail.com`;
+        if(/shop page|see more|filter|filters/.test(t)) return 'Use the “See More” button to open our Shop page with powerful filters by category, price, name and sort options.';
+        if(/return|refund|replace/.test(t)) return 'We stand by quality. If something isn’t right, contact us immediately and we’ll make it right — replacement or refund as appropriate.';
+        return 'I\'m here to help with flowers, gifts, delivery, prices, WhatsApp ordering, hours, and categories. Try: “Do you do same‑day delivery?” or “What categories do you have?”';
+      }
+
+      function send(){
+        const q = input.value.trim();
+        if(!q) return;
+        appendMessage('user', q);
+        input.value = '';
+        setTimeout(()=>{ appendMessage('bot', getResponse(q)); }, 300);
+      }
+
+      sendBtn.addEventListener('click', send);
+      input.addEventListener('keydown', (e)=>{ if(e.key==='Enter') send(); });
+      if(suggestions){
+        suggestions.addEventListener('click', (e)=>{
+          const btn = e.target.closest('button[data-q]');
+          if(!btn) return;
+          input.value = btn.getAttribute('data-q');
+          send();
+        });
+      }
+    })();
+  </script>
+<script>
+    (function(){
+      const btn = document.getElementById('mobile-menu-btn');
+      const menu = document.getElementById('mobile-menu');
+      if(btn && menu){ btn.addEventListener('click', ()=> menu.classList.toggle('hidden')); }
+    })();
+  </script>
+</body>
+</html>

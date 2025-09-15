@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin • Tewa Blooms</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="icon" href="assets/logo.png" type="image/png">
+  <style>
+    :root { --brand-brown:#7B4A3A; --brand-brown-dark:#6A3F33; --brand-cream:#F5EEE6; }
+    body { background: var(--brand-cream); }
+    .btn-brand { background-color: var(--brand-brown); color: #fff; }
+    .btn-brand:hover { background-color: var(--brand-brown-dark); }
+    .text-brand { color: var(--brand-brown); }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+  <header class="bg-white border-b shadow-sm">
+    <div class="max-w-5xl mx-auto p-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <img src="assets/Tewa logo.jpeg" alt="logo" class="h-10 w-10 rounded-full object-cover"/>
+        <div class="text-brand font-semibold text-lg">Tewa Blooms • Admin</div>
+      </div>
+      <div class="flex items-center gap-2">
+        <a href="index.html" class="px-3 py-2 border rounded-md">← Site</a>
+        <button id="logout" class="px-3 py-2 btn-brand rounded-md">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1">
+    <div class="max-w-5xl mx-auto p-6">
+      <h1 class="text-2xl font-semibold text-gray-800">Welcome</h1>
+      <p class="text-gray-600 mt-1">Choose an action below.</p>
+
+      <div class="grid sm:grid-cols-2 gap-6 mt-6">
+        <a href="manage.html" class="block bg-white border rounded-2xl shadow hover:shadow-md transition p-6">
+          <div class="text-brand font-semibold text-lg">Manage Products</div>
+          <p class="text-sm text-gray-600">Edit, delete and organize catalog</p>
+        </a>
+        <a href="upload.html" class="block bg-white border rounded-2xl shadow hover:shadow-md transition p-6">
+          <div class="text-brand font-semibold text-lg">Upload Product</div>
+          <p class="text-sm text-gray-600">Add new items to the store</p>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <script type="module">
+    import { requireAuth, signOut } from './js/supabaseClient.js';
+    await requireAuth('login.html');
+    document.getElementById('logout').addEventListener('click', ()=> signOut('login.html'));
+  </script>
+</body>
+</html>

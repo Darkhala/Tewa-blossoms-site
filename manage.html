@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Manage Products • Tewa Blooms</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="assets/logo.png" type="image/png">
+  <style>
+    :root { --brand-brown:#7B4A3A; --brand-brown-dark:#6A3F33; --brand-cream:#F5EEE6; }
+    body { background: var(--brand-cream); }
+    .btn-brand { background-color: var(--brand-brown); color: #fff; }
+    .btn-brand:hover { background-color: var(--brand-brown-dark); }
+    .text-brand { color: var(--brand-brown); }
+    .heading-script { font-family:'Dancing Script',cursive; font-weight:700; color: var(--brand-brown); }
+    .ring-brand { --tw-ring-color: var(--brand-brown); }
+  </style>
+</head>
+<body class="text-gray-800">
+  <!-- Top bar -->
+  <div class="border-b bg-white sticky top-0 z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto flex items-center justify-between p-3">
+      <div class="flex items-center gap-3">
+        <img src="assets/Tewa logo.jpeg" alt="logo" class="h-10 w-10 object-cover rounded-full bg-rose-100">
+        <div class="text-brand font-bold text-lg" style="font-family:'Dancing Script',cursive">Tewa Blooms</div>
+      </div>
+      <div class="flex items-center gap-2">
+        <a href="admin.html" class="px-3 py-2 border rounded-md">← Dashboard</a>
+        <a href="upload.html" class="px-3 py-2 btn-brand rounded-md">Add New</a>
+        <button id="logout" class="px-3 py-2 border rounded-md">Logout</button>
+      </div>
+    </div>
+  </div>
+
+  <main class="max-w-7xl mx-auto px-4 md:px-6 py-6">
+    <h1 class="heading-script text-3xl mb-4">Manage Products</h1>
+
+    <!-- Filters -->
+    <section class="bg-white rounded-xl shadow p-4 mb-6">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+        <div>
+          <label class="block text-sm font-medium mb-1">Search</label>
+          <input id="f-search" type="text" placeholder="Search by name/description..." class="w-full border rounded-md px-3 py-2"/>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Category</label>
+          <select id="f-category" class="w-full border rounded-md px-3 py-2">
+            <option value="All">All</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Sort</label>
+          <select id="f-sort" class="w-full border rounded-md px-3 py-2">
+            <option value="">None</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="name-asc">Name: A-Z</option>
+            <option value="new-first">Newest First</option>
+          </select>
+        </div>
+        <div class="flex items-end">
+          <button id="f-clear" class="w-full border rounded-md px-3 py-2">Clear</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- List -->
+    <section id="list" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <!-- cards injected here -->
+    </section>
+  </main>
+
+  <!-- Edit Modal -->
+  <div id="edit-modal" class="hidden fixed inset-0 bg-black/60 z-50 items-center justify-center p-3">
+    <div class="bg-white rounded-2xl shadow-2xl w-[95%] max-w-3xl max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between p-4 border-b">
+        <div class="heading-script text-2xl">Edit Product</div>
+        <button id="edit-close" class="text-gray-500 hover:text-brand text-2xl">&times;</button>
+      </div>
+      <form id="edit-form" class="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <input type="hidden" id="e-id" />
+        <div class="md:col-span-2">
+          <label class="block text-sm font-medium mb-1">Name</label>
+          <input id="e-name" class="w-full border rounded-md px-3 py-2" required />
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Original Price (KES)</label>
+          <input id="e-original" type="number" class="w-full border rounded-md px-3 py-2" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">New Price (KES)</label>
+          <input id="e-new" type="number" class="w-full border rounded-md px-3 py-2" required />
+        </div>
+        <div class="md:col-span-2">
+          <label class="block text-sm font-medium mb-1">Description</label>
+          <textarea id="e-desc" rows="3" class="w-full border rounded-md px-3 py-2"></textarea>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Category</label>
+          <input id="e-category" list="dlist-cats" class="w-full border rounded-md px-3 py-2" required />
+          <datalist id="dlist-cats"></datalist>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Type</label>
+          <select id="e-type" class="w-full border rounded-md px-3 py-2" required>
+            <option value="featured">featured</option>
+            <option value="self">self</option>
+          </select>
+        </div>
+        <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-sm font-medium mb-1">Current Image</label>
+            <img id="e-image-preview" src="" alt="preview" class="w-full h-40 object-cover rounded" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Upload New Image (optional)</label>
+            <input id="e-image" type="file" accept="image/*" class="w-full border rounded-md px-3 py-2" />
+          </div>
+        </div>
+        <div class="md:col-span-2 flex justify-end gap-2 pt-2">
+          <button type="button" id="edit-cancel" class="px-4 py-2 border rounded-md">Cancel</button>
+          <button type="submit" class="px-5 py-2 btn-brand rounded-md">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module">
+    import { supabase, requireAuth, signOut } from './js/supabaseClient.js';
+    await requireAuth('login.html');
+
+    const TABLE = 'products';
+
+    const listDiv = document.getElementById('list');
+    const fSearch = document.getElementById('f-search');
+    const fCategory = document.getElementById('f-category');
+    const fSort = document.getElementById('f-sort');
+    const fClear = document.getElementById('f-clear');
+
+    let all = [];
+
+    async function fetchAll(){
+      const { data, error } = await supabase.from(TABLE).select('*').order('id', { ascending: false });
+      if(error){ console.error(error); alert('Failed to load products'); return []; }
+      return data || [];
+    }
+
+    function uniqueCategories(items){
+      return Array.from(new Set(items.map(p => p.category).filter(Boolean))).sort();
+    }
+
+    function populateCategoryFilter(items){
+      const cats = uniqueCategories(items);
+      fCategory.innerHTML = '<option value="All">All</option>' + cats.map(c=>`<option value="${c}">${c}</option>`).join('');
+      // datalist for edit modal
+      const dlist = document.getElementById('dlist-cats');
+      dlist.innerHTML = cats.map(c=>`<option value="${c}">`).join('');
+    }
+
+    function applyFilters(){
+      const q = (fSearch.value || '').toLowerCase();
+      const cat = fCategory.value;
+      const sort = fSort.value;
+
+      let list = [...all];
+      if(cat !== 'All') list = list.filter(p => p.category === cat);
+      if(q) list = list.filter(p => (p.name||'').toLowerCase().includes(q) || (p.description||'').toLowerCase().includes(q));
+      if(sort === 'price-asc') list.sort((a,b)=>Number(a.new_price)-Number(b.new_price));
+      if(sort === 'price-desc') list.sort((a,b)=>Number(b.new_price)-Number(a.new_price));
+      if(sort === 'name-asc') list.sort((a,b)=>(a.name||'').localeCompare(b.name||''));
+      if(sort === 'new-first') list.sort((a,b)=>Number(b.id)-Number(a.id));
+      return list;
+    }
+
+    function kfmt(v){ return Number(v).toLocaleString('en-KE'); }
+
+    function render(items){
+      listDiv.innerHTML = '';
+      if(items.length === 0){
+        listDiv.innerHTML = '<div class="col-span-full text-center text-gray-500">No products found.</div>';
+        return;
+      }
+      items.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'bg-white rounded-xl shadow p-3 flex flex-col';
+        card.innerHTML = `
+          <img src="${p.image_url}" alt="${p.name}" class="w-full h-40 object-cover rounded-md" />
+          <div class="mt-2 flex items-center justify-between">
+            <div class="font-semibold text-gray-800 truncate" title="${p.name}">${p.name}</div>
+            <span class="text-xs text-gray-500">#${p.id}</span>
+          </div>
+          <div class="text-sm text-gray-600 mt-1 line-clamp-2">${p.description || ''}</div>
+          <div class="mt-1 text-sm"><span class="text-brand font-semibold">KES ${kfmt(p.new_price)}</span> ${p.original_price ? `<span class="text-gray-400 line-through ml-1">KES ${kfmt(p.original_price)}</span>`:''}</div>
+          <div class="mt-1 text-xs text-gray-500">Category: ${p.category || '-'}</div>
+          <div class="mt-3 flex gap-2">
+            <button data-act="edit" class="flex-1 btn-brand rounded-md py-1 text-sm">Edit</button>
+            <button data-act="del" class="flex-1 border rounded-md py-1 text-sm">Delete</button>
+          </div>
+        `;
+
+        card.querySelector('[data-act="edit"]').addEventListener('click', ()=> openEdit(p));
+        card.querySelector('[data-act="del"]').addEventListener('click', ()=> delProduct(p));
+
+        listDiv.appendChild(card);
+      });
+    }
+
+    // Edit handling
+    const editModal = document.getElementById('edit-modal');
+    const editClose = document.getElementById('edit-close');
+    const editCancel = document.getElementById('edit-cancel');
+    const editForm = document.getElementById('edit-form');
+
+    function openEdit(p){
+      document.getElementById('e-id').value = p.id;
+      document.getElementById('e-name').value = p.name || '';
+      document.getElementById('e-original').value = p.original_price || '';
+      document.getElementById('e-new').value = p.new_price || '';
+      document.getElementById('e-desc').value = p.description || '';
+      document.getElementById('e-category').value = p.category || '';
+      document.getElementById('e-type').value = p.type || 'self';
+      document.getElementById('e-image-preview').src = p.image_url || '';
+      document.getElementById('e-image').value = '';
+      editModal.classList.remove('hidden');
+      editModal.classList.add('flex');
+    }
+    function closeEdit(){
+      editModal.classList.add('hidden');
+      editModal.classList.remove('flex');
+    }
+    editClose.addEventListener('click', closeEdit);
+    editCancel.addEventListener('click', closeEdit);
+    editModal.addEventListener('click', (e)=>{ if(e.target === editModal) closeEdit(); });
+
+    function extractStoragePath(publicUrl){
+      // expected: https://<proj>.supabase.co/storage/v1/object/public/product-images/<filename>
+      const marker = '/object/public/product-images/';
+      const i = publicUrl.indexOf(marker);
+      if(i === -1) return null;
+      return publicUrl.substring(i + marker.length);
+    }
+
+    async function uploadImage(file){
+      const fileName = `${Date.now()}-${file.name}`;
+      const { error: imgErr } = await supabase.storage.from('product-images').upload(fileName, file, { cacheControl: '3600', upsert: true });
+      if(imgErr) throw imgErr;
+      const { data: pub } = supabase.storage.from('product-images').getPublicUrl(fileName);
+      return { publicUrl: pub.publicUrl, path: fileName };
+    }
+
+    editForm.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const id = Number(document.getElementById('e-id').value);
+      const name = document.getElementById('e-name').value.trim();
+      const original_price = document.getElementById('e-original').value ? Number(document.getElementById('e-original').value) : null;
+      const new_price = Number(document.getElementById('e-new').value);
+      const description = document.getElementById('e-desc').value.trim();
+      const category = document.getElementById('e-category').value.trim();
+      const type = document.getElementById('e-type').value;
+      const file = document.getElementById('e-image').files[0];
+      const currentImg = document.getElementById('e-image-preview').src;
+
+      let image_url = currentImg;
+      let oldPath = extractStoragePath(currentImg);
+      try{
+        if(file){
+          const up = await uploadImage(file);
+          image_url = up.publicUrl;
+        }
+        const { error: upErr } = await supabase.from(TABLE).update({ name, original_price, new_price, description, category, type, image_url }).eq('id', id);
+        if(upErr) throw upErr;
+
+        // Delete old file if new uploaded
+        if(file && oldPath){ await supabase.storage.from('product-images').remove([oldPath]); }
+
+        alert('✅ Product updated');
+        closeEdit();
+        all = await fetchAll();
+        populateCategoryFilter(all);
+        render(applyFilters());
+      }catch(err){
+        console.error(err);
+        alert('❌ Update failed: ' + (err.message||err));
+      }
+    });
+
+    // Delete product
+    async function delProduct(p){
+      if(!confirm(`Delete "${p.name}"? This cannot be undone.`)) return;
+      try{
+        const { error } = await supabase.from(TABLE).delete().eq('id', p.id);
+        if(error) throw error;
+        // attempt to delete image file
+        const path = extractStoragePath(p.image_url||'');
+        if(path){ await supabase.storage.from('product-images').remove([path]); }
+        all = await fetchAll();
+        populateCategoryFilter(all);
+        render(applyFilters());
+        alert('🗑️ Deleted');
+      }catch(err){
+        console.error(err);
+        alert('❌ Delete failed: ' + (err.message||err));
+      }
+    }
+
+    // Wire filters
+    const debounce = (fn, d=300)=>{ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), d); }; };
+    fSearch.addEventListener('input', debounce(()=> render(applyFilters()), 250));
+    fCategory.addEventListener('change', ()=> render(applyFilters()));
+    fSort.addEventListener('change', ()=> render(applyFilters()));
+    fClear.addEventListener('click', ()=>{ fSearch.value=''; fCategory.value='All'; fSort.value=''; render(all); });
+
+    // Init
+    (async function init(){
+      all = await fetchAll();
+      populateCategoryFilter(all);
+      render(all);
+    })();
+
+    // Logout handler
+    document.getElementById('logout').addEventListener('click', ()=> signOut('login.html'));
+  </script>
+</body>
+</html>
