@@ -123,10 +123,10 @@ if (pm.root) {
   });
 }
 
-// Checkout -> WhatsApp
-const checkoutBtn = document.querySelector('#cart-modal .border-t button');
-if (checkoutBtn) {
-  checkoutBtn.addEventListener('click', () => {
+// Checkout buttons
+const waCheckoutBtn = document.getElementById('wa-checkout-btn');
+if (waCheckoutBtn) {
+  waCheckoutBtn.addEventListener('click', () => {
     if (!cart || cart.length === 0) {
       alert('Your cart is empty.');
       return;
@@ -135,6 +135,22 @@ if (checkoutBtn) {
     const total = cart.reduce((sum, item) => sum + Number(item.new_price || 0), 0);
     const message = `Hello Tewa,\nI'd like to order:\n\n${lines.join('\n')}\n\nTotal: KES ${total.toFixed(2)}\n\nPlease advise on payment and delivery.`;
     openWhatsApp(message);
+  });
+}
+
+const pesapalPayBtn = document.getElementById('pesapal-pay-btn');
+if (pesapalPayBtn) {
+  pesapalPayBtn.addEventListener('click', async () => {
+    if (!cart || cart.length === 0) { alert('Your cart is empty.'); return; }
+    const total = cart.reduce((sum, item) => sum + Number(item.new_price || 0), 0);
+    try {
+      const mod = await import('./pesapal.js');
+      const customer = {};
+      await mod.startPesapalCheckout(total, cart, customer);
+    } catch (e) {
+      console.error('Failed to start Pesapal checkout:', e);
+      alert('Failed to start Pesapal checkout. Please try again.');
+    }
   });
 }
 
@@ -178,7 +194,6 @@ function renderFeaturedCollections() {
       <div class="p-5">
         <h3 class="text-lg font-semibold text-gray-800">${item.name}</h3>
         <p class="text-sm text-gray-600 mt-1">${item.description}</p>
-        <div class="mt-4 text-sm font-semibold text-brand">${item.priceLine}</div>
       </div>
     `;
     grid.appendChild(card);
@@ -196,7 +211,7 @@ function renderProducts(grid, products) {
     const waMessage = `Hello Tewa, I want '${p.name}' for KES ${p.new_price}`;
     const waUrl = buildWhatsAppUrl(waMessage);
 
-    div.className = "border p-2 rounded-md shadow-sm hover:shadow flex flex-col text-xs max-w-[10rem] cursor-pointer"; 
+    div.className = "border p-2 rounded-md shadow-sm hover:shadow flex flex-col text-xs cursor-pointer bg-cream"; 
     div.innerHTML = `
       <img src="${p.image_url}" class="w-full h-32 object-cover rounded-md" />
       <div class="mt-1 flex justify-between items-center">
@@ -237,8 +252,8 @@ function renderProducts(grid, products) {
       updateCartUI();
     });
 
-    // Open product detail modal on card click
-    div.addEventListener('click', () => openProductModal(p));
+    // Navigate to product details page on card click
+    div.addEventListener('click', () => { window.location.href = `product.html?id=${p.id}`; });
 
     grid.appendChild(div);
   });
@@ -362,11 +377,12 @@ function updateFeaturedIndicators() {
 async function loadProducts() {
   const products = await fetchProducts();
   renderFeaturedCollections();
-  renderProducts(shopGrid, products); // all products in shop
+  const subset = products.slice(0, 8);
+  renderProducts(shopGrid, subset); // show a subset on home page
   renderCategories(products);
   ensureShopByCategorySection();
   renderCategoryShowcase(products);
 
-    document.getElementById("shop-see-more").addEventListener("click", () => renderProducts(shopGrid, products));
+    // Link now goes to shop.html; no JS re-render needed
 }
 loadProducts();

@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tewa Blooms | Product</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="assets/logo.png" type="image/png">
+  <style>
+    :root { --brand-brown: #7B4A3A; --brand-brown-dark: #6A3F33; --brand-cream: #F5EEE6; }
+    body { background: var(--brand-cream); }
+    .btn-brand { background-color: var(--brand-brown); color: #fff; }
+    .btn-brand:hover { background-color: var(--brand-brown-dark); }
+    .text-brand { color: var(--brand-brown); }
+    .heading-script { font-family: 'Dancing Script', cursive; font-weight: 700; color: var(--brand-brown); }
+    .desc-collapsed { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+  </style>
+</head>
+<body class="text-gray-800">
+  <!-- Top bar -->
+  <div class="border-b bg-white fixed w-full top-0 z-[100] shadow-sm">
+    <div class="max-w-7xl mx-auto flex items-center justify-between p-3">
+      <div class="flex items-center gap-3">
+        <img src="assets/Tewa logo.jpeg" alt="logo" class="h-12 w-12 object-cover rounded-full bg-rose-100">
+        <a href="index.html" class="text-brand font-bold text-lg" style="font-family: 'Dancing Script', cursive;">Tewa Blooms</a>
+      </div>
+      <div class="flex items-center gap-5">
+        <a href="shop.html" class="hover:underline">Shop</a>
+        <button id="cart-btn" class="relative">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-brand" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.25 3h1.5l1.5 12.75h12.75l1.5-9H6M9 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm9 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/></svg>
+          <span id="cart-count" class="absolute -top-1 -right-1 bg-red-600 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">0</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <main class="max-w-7xl mx-auto px-4 md:px-6 pt-24 pb-16">
+    <div id="product-breadcrumb" class="text-xs text-gray-500 mb-2"></div>
+
+    <div id="product-card" class="bg-white rounded-2xl shadow p-4 grid grid-cols-1 md:grid-cols-5 gap-5">
+      <div class="md:col-span-2">
+        <img id="p-image" src="" alt="" class="w-full h-80 md:h-[24rem] object-cover rounded-xl bg-[#F5EEE6]"/>
+      </div>
+      <div class="md:col-span-3 flex flex-col">
+        <h1 id="p-name" class="text-2xl font-semibold text-gray-900"></h1>
+        <div class="mt-1 text-sm text-gray-500" id="p-category"></div>
+        <hr class="my-3"/>
+        <div class="flex items-center gap-2 mb-2">
+          <span id="p-price" class="text-brand font-bold text-2xl"></span>
+          <span id="p-original" class="text-gray-400 line-through text-sm"></span>
+          <span id="p-discount" class="text-[11px] bg-green-100 text-green-600 px-2 py-0.5 rounded hidden"></span>
+        </div>
+        <div id="p-desc" class="text-sm text-gray-700 desc-collapsed"></div>
+        <button id="p-toggle-desc" class="mt-1 text-xs text-brand underline w-max">Show more</button>
+        <div class="mt-4 flex flex-wrap gap-2">
+          <button id="btn-add-cart" class="px-4 py-2 btn-brand rounded-md">Add to Cart</button>
+          <button id="btn-wa" class="px-4 py-2 border border-[var(--brand-brown)] text-[var(--brand-brown)] rounded-md hover:bg-[var(--brand-brown)] hover:text-white">WhatsApp</button>
+        </div>
+      </div>
+    </div>
+
+    <section class="mt-10">
+      <h2 class="heading-script text-2xl md:text-3xl mb-4">Related Products</h2>
+      <div id="related-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-3"></div>
+    </section>
+  </main>
+
+  <!-- Cart Modal -->
+  <div id="cart-modal" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-3">
+    <div class="bg-white rounded-2xl shadow-lg w-full max-w-md max-h-[85vh] flex flex-col">
+      <div class="flex justify-between items-center border-b p-4">
+        <h2 class="text-lg font-bold text-gray-800">Your Cart</h2>
+        <button onclick="closeCart()" class="text-gray-600 hover:text-brand text-2xl">&times;</button>
+      </div>
+      <div id="cart-items" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
+      <div class="border-t p-4">
+        <div class="flex justify-between font-semibold mb-3">
+          <span>Total:</span>
+          <span id="cart-total">KES 0.00</span>
+        </div>
+        <div class="space-y-2">
+          <a href="checkout.html" class="w-full block text-center bg-red-600 text-white py-2 rounded-lg">Go to Checkout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/paypal.js" type="module"></script>
+  <script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js";
+
+    const SUPABASE_URL = "https://arcyvagzgpciljoxjago.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFyY3l2YWd6Z3BjaWxqb3hqYWdvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY3MDQ3NjIsImV4cCI6MjA3MjI4MDc2Mn0.RL3fgUAaNm6fLq3BROOMOLio-Wjzc6--XGn8qax3mWw";
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const TABLE_PRODUCTS = 'products';
+
+    let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+
+    const cartCount = document.getElementById('cart-count');
+    const cartItemsDiv = document.getElementById('cart-items');
+    const cartTotalEls = document.querySelectorAll('#cart-total');
+    const cartModal = document.getElementById('cart-modal');
+
+    const WHATSAPP_PHONE = "254757399339";
+    const isMobile = () => /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    function buildWhatsAppUrl(message){
+      const text = encodeURIComponent(message);
+      return isMobile() ? `https://wa.me/${WHATSAPP_PHONE}?text=${text}` : `https://web.whatsapp.com/send?phone=${WHATSAPP_PHONE}&text=${text}`;
+    }
+    function openWhatsApp(message){
+      const url = buildWhatsAppUrl(message);
+      let w = window.open(url,'_blank');
+      if(!w){ const fb = `https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE}&text=${encodeURIComponent(message)}`; w = window.open(fb,'_blank'); if(!w) window.location.href=fb; }
+    }
+
+    function updateCartUI(){
+      try { cartCount.textContent = cart.length; } catch {}
+      cartItemsDiv.innerHTML = '';
+      let total = 0;
+      cart.forEach((item, idx) => {
+        total += Number(item.new_price || 0);
+        const row = document.createElement('div');
+        row.className = 'flex items-center border-b p-2 gap-2';
+        row.innerHTML = `
+          <img src="${item.image_url}" alt="${item.name}" class="w-12 h-12 object-cover rounded" />
+          <div class="flex-1">
+            <div class="font-semibold text-sm line-clamp-1">${item.name}</div>
+            <div class="text-xs text-gray-500">KES ${Number(item.new_price).toLocaleString('en-KE')}</div>
+          </div>
+          <button class="text-red-600 font-bold text-lg leading-none">&times;</button>`;
+        row.querySelector('button').addEventListener('click', ()=>{ cart.splice(idx,1); localStorage.setItem('cart', JSON.stringify(cart)); updateCartUI(); });
+        cartItemsDiv.appendChild(row);
+      });
+      cartTotalEls.forEach(el => el.textContent = `KES ${total.toLocaleString('en-KE', { minimumFractionDigits: 2 })}`);
+    }
+    updateCartUI();
+
+    document.getElementById('cart-btn').addEventListener('click', ()=> cartModal.classList.remove('hidden'));
+    window.closeCart = ()=> cartModal.classList.add('hidden');
+
+    const params = new URLSearchParams(location.search);
+    const idParam = params.get('id');
+    const productId = (idParam && /^\d+$/.test(idParam)) ? Number(idParam) : idParam; // support bigint or uuid ids
+    let currentProduct = null;
+
+    async function fetchProduct(id){
+      const { data, error } = await supabase.from(TABLE_PRODUCTS).select('*').eq('id', id).maybeSingle();
+      if(error) { console.error(error); return null; }
+      return data;
+    }
+    async function fetchRelated(category, excludeId){
+      let query = supabase.from(TABLE_PRODUCTS).select('*').neq('id', excludeId).limit(10);
+      if(category) query = query.eq('category', category);
+      const { data, error } = await query;
+      if(error){ console.error(error); return []; }
+      return data || [];
+    }
+
+    function renderProduct(p){
+      if(!p) return;
+      document.getElementById('p-image').src = p.image_url || '';
+      document.getElementById('p-image').alt = p.name || '';
+      document.getElementById('p-name').textContent = p.name || '';
+      const categoryText = p.category || p.category_name || '';
+      document.getElementById('p-category').textContent = categoryText ? `Category: ${categoryText}` : '';
+      const priceEl = document.getElementById('p-price');
+      const originalEl = document.getElementById('p-original');
+      const discountEl = document.getElementById('p-discount');
+      const newPrice = Number((p.new_price ?? p.price) || 0);
+      const origPrice = (p.original_price ?? p.old_price);
+      priceEl.textContent = `KES ${newPrice.toLocaleString('en-KE')}`;
+      if(origPrice){
+        originalEl.textContent = `KES ${Number(origPrice).toLocaleString('en-KE')}`;
+        const disc = Math.round(100 - (newPrice/Number(origPrice))*100);
+        if(disc > 0){ discountEl.textContent = `${disc}% OFF`; discountEl.classList.remove('hidden'); } else { discountEl.classList.add('hidden'); }
+      } else { originalEl.textContent = ''; discountEl.classList.add('hidden'); }
+
+      const descEl = document.getElementById('p-desc');
+      const toggleBtn = document.getElementById('p-toggle-desc');
+      descEl.textContent = p.description || '';
+      let expanded = false;
+      toggleBtn.onclick = () => { expanded = !expanded; descEl.classList.toggle('desc-collapsed', !expanded); toggleBtn.textContent = expanded ? 'Show less' : 'Show more'; };
+
+      // Buttons logic
+      document.getElementById('btn-add-cart').onclick = () => {
+        // normalize price fields so cart always has new_price
+        const toCart = { ...p };
+        if(toCart.new_price == null && toCart.price != null) toCart.new_price = toCart.price;
+        cart.push(toCart); localStorage.setItem('cart', JSON.stringify(cart)); updateCartUI(); alert('Added to cart');
+      };
+      document.getElementById('btn-wa').onclick = () => {
+        const msg = `Hello Tewa, I want '${p.name}' for KES ${Number((p.new_price ?? p.price) || 0).toLocaleString('en-KE')}`;
+        openWhatsApp(msg);
+      };
+      
+          }
+
+    function renderRelated(list){
+      const grid = document.getElementById('related-grid');
+      grid.innerHTML = '';
+      list.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'border p-2 rounded-md shadow-sm hover:shadow flex flex-col text-xs cursor-pointer bg-[#F5EEE6]';
+        const discount = p.original_price ? Math.round(100 - (p.new_price / p.original_price) * 100) : 0;
+        card.innerHTML = `
+          <img src="${p.image_url}" class="w-full h-36 object-cover rounded-md" />
+          <div class=\"mt-1 flex justify-between items-center\">
+            <div class=\"font-medium text-gray-800 truncate\">${p.name}</div>
+            ${discount > 0 ? `<span class=\"text-[10px] bg-green-100 text-green-600 px-1 py-0.5 rounded\">${discount}% OFF</span>` : ''}
+          </div>
+          <div class=\"mt-0.5 text-xs\">
+            ${p.original_price ? `<span class=\"line-through text-gray-400\">KES ${Number(p.original_price).toLocaleString('en-KE')}</span>` : ''}
+            <span class=\"font-semibold text-brand\">KES ${Number(p.new_price).toLocaleString('en-KE')}</span>
+          </div>`;
+        card.addEventListener('click', ()=> { window.location.href = `product.html?id=${p.id}`; });
+        grid.appendChild(card);
+      });
+    }
+
+    const waCheckoutBtn = document.getElementById('wa-checkout-btn');
+    if (waCheckoutBtn) waCheckoutBtn.addEventListener('click', () => {
+      if (!cart || cart.length === 0) { alert('Your cart is empty.'); return; }
+      const lines = cart.map((item, i) => `${i + 1}. ${item.name} - KES ${Number(item.new_price).toLocaleString('en-KE')}`);
+      const total = cart.reduce((s, it) => s + Number(it.new_price || 0), 0);
+      const message = `Hello Tewa,\nI'd like to order:\n\n${lines.join('\n')}\n\nTotal: KES ${total.toLocaleString('en-KE', { minimumFractionDigits: 2 })}\n\nPlease advise on payment and delivery.`;
+      openWhatsApp(message);
+    });
+
+    const pesapalPayBtn = document.getElementById('pesapal-pay-btn');
+    if (pesapalPayBtn) pesapalPayBtn.addEventListener('click', async () => {
+      if (!cart || cart.length === 0) { alert('Your cart is empty.'); return; }
+      const total = cart.reduce((s, it) => s + Number(it.new_price || 0), 0);
+      try {
+        const mod = await import('./js/pesapal.js');
+        await mod.startPesapalCheckout(total, cart, {});
+      } catch (e) {
+        console.error('Failed to start Pesapal checkout:', e);
+        alert('Failed to start Pesapal checkout. Please try again.');
+      }
+    });
+
+    // Init
+    (async function init(){
+      if(!productId){ document.getElementById('product-card').innerHTML = '<div class="p-4">Product not found.</div>'; return; }
+      const p = await fetchProduct(productId);
+      currentProduct = p;
+      if(!p){ document.getElementById('product-card').innerHTML = '<div class="p-4">Product not found.</div>'; return; }
+      const catCrumb = p.category || p.category_name;
+      document.getElementById('product-breadcrumb').textContent = catCrumb ? `Home › ${catCrumb} › ${p.name}` : `Home › ${p.name}`;
+      renderProduct(p);
+      const related = await fetchRelated(p.category || '', p.id);
+      renderRelated(related);
+    })();
+  </script>
+</body>
+</html>

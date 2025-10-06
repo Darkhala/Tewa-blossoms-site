@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tewa Blooms | Checkout</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="assets/logo.png" type="image/png">
+  <style>
+    :root { --brand-brown: #7B4A3A; --brand-brown-dark: #6A3F33; --brand-cream: #F5EEE6; }
+    body { background: var(--brand-cream); }
+    .btn-brand { background-color: var(--brand-brown); color: #fff; }
+    .btn-brand:hover { background-color: var(--brand-brown-dark); }
+    .text-brand { color: var(--brand-brown); }
+    .heading-script { font-family: 'Dancing Script', cursive; font-weight: 700; color: var(--brand-brown); }
+    .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  </style>
+</head>
+<body class="text-gray-800">
+  <!-- Top bar -->
+  <div class="border-b bg-white fixed w-full top-0 z-[100] shadow-sm">
+    <div class="max-w-7xl mx-auto flex items-center justify-between p-3">
+      <div class="flex items-center gap-3">
+        <img src="assets/Tewa logo.jpeg" alt="logo" class="h-12 w-12 object-cover rounded-full bg-rose-100">
+        <a href="index.html" class="text-brand font-bold text-lg" style="font-family: 'Dancing Script', cursive;">Tewa Blooms</a>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="shop.html" class="hover:underline">Shop</a>
+        <a href="index.html#shop" class="hover:underline">Catalog</a>
+      </div>
+    </div>
+  </div>
+
+  <main class="max-w-7xl mx-auto px-4 md:px-6 pt-24 pb-16">
+    <h1 class="heading-script text-3xl md:text-4xl mb-6">Checkout</h1>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <!-- Billing Details -->
+      <section class="lg:col-span-7 bg-white rounded-xl shadow p-4">
+        <h2 class="text-lg font-semibold text-gray-800 mb-4">Billing Details</h2>
+        <form id="billing-form" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="sm:col-span-2">
+            <label class="block text-sm font-medium mb-1">Full Name</label>
+            <input id="b-name" type="text" required class="w-full border rounded-md px-3 py-2" placeholder="Jane Doe" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Email</label>
+            <input id="b-email" type="email" required class="w-full border rounded-md px-3 py-2" placeholder="you@example.com" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Phone</label>
+            <input id="b-phone" type="tel" required class="w-full border rounded-md px-3 py-2" placeholder="07.. or +254.." />
+          </div>
+          <div class="sm:col-span-2">
+            <label class="block text-sm font-medium mb-1">Address Line 1</label>
+            <input id="b-addr1" type="text" required class="w-full border rounded-md px-3 py-2" placeholder="Street, building, or landmark" />
+          </div>
+          <div class="sm:col-span-2">
+            <label class="block text-sm font-medium mb-1">Address Line 2 (optional)</label>
+            <input id="b-addr2" type="text" class="w-full border rounded-md px-3 py-2" placeholder="Apartment, suite, etc." />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">City</label>
+            <input id="b-city" type="text" required class="w-full border rounded-md px-3 py-2" placeholder="Nairobi" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Notes (optional)</label>
+            <input id="b-notes" type="text" class="w-full border rounded-md px-3 py-2" placeholder="Delivery instructions, occasion, etc." />
+          </div>
+        </form>
+      </section>
+
+      <!-- Order Summary -->
+      <aside class="lg:col-span-5 bg-white rounded-xl shadow p-4 h-max">
+        <h2 class="text-lg font-semibold text-gray-800 mb-3">Order Summary</h2>
+        <div id="summary-items" class="divide-y"></div>
+        <div class="mt-4 space-y-2 text-sm">
+          <div class="flex justify-between"><span>Subtotal</span><span id="sum-subtotal">KES 0.00</span></div>
+          <div>
+            <div class="font-medium mb-1">Shipping</div>
+            <div class="space-y-1">
+              <label class="flex items-center gap-2 text-sm"><input type="radio" name="ship" value="CBD" data-amount="200" class="ship-opt"> <span>CBD: KShs 200</span></label>
+              <label class="flex items-center gap-2 text-sm"><input type="radio" name="ship" value="NBO" data-amount="750" class="ship-opt"> <span>Nairobi & its Environs: KShs 750</span></label>
+              <label class="flex items-center gap-2 text-sm"><input type="radio" name="ship" value="OUT" data-amount="1500" class="ship-opt"> <span>Outside Nairobi (Next Day Delivery): KShs 1,500</span></label>
+            </div>
+          </div>
+          <div class="flex justify-between"><span>Shipping Cost</span><span id="sum-ship">KES 0.00</span></div>
+          <div class="flex justify-between font-semibold text-gray-900 text-base"><span>Total</span><span id="sum-total">KES 0.00</span></div>
+        </div>
+        <div class="mt-4 space-y-2">
+          <button id="btn-wa" class="w-full btn-brand text-white py-2 rounded-md">Order via WhatsApp</button>
+          <button id="btn-pesapal" class="w-full border border-[var(--brand-brown)] text-[var(--brand-brown)] py-2 rounded-md hover:bg-[var(--brand-brown)] hover:text-white">Pay with PesaPal</button>
+          <div id="paypal-button-container" class="mt-2"></div>
+          <a class="block text-center mt-2 text-sm text-gray-600 hover:underline" href="shop.html">Back to shop</a>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- Scripts -->
+  <script type="module" src="js/paypal.js"></script>
+  <script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js";
+
+    // Optional: override PayPal currency/exchange
+    // window.PAYPAL_CURRENCY = 'USD';
+    // window.PAYPAL_EXCHANGE_RATE = 0.0077; // 1 KES ~ 0.0077 USD
+
+    const SUPABASE_URL = "https://arcyvagzgpciljoxjago.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFyY3l2YWd6Z3BjaWxqb3hqYWdvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY3MDQ3NjIsImV4cCI6MjA3MjI4MDc2Mn0.RL3fgUAaNm6fLq3BROOMOLio-Wjzc6--XGn8qax3mWw";
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+
+    const formatKES = (n)=> 'KES ' + Number(n||0).toLocaleString('en-KE', { minimumFractionDigits: 2 });
+
+    // Summary DOM
+    const itemsDiv = document.getElementById('summary-items');
+    const subEl = document.getElementById('sum-subtotal');
+    const shipEl = document.getElementById('sum-ship');
+    const totalEl = document.getElementById('sum-total');
+
+    // Shipping selection
+    const shipRadios = Array.from(document.querySelectorAll('.ship-opt'));
+    let shippingCost = 0;
+
+    function subtotal(){ return cart.reduce((s,i)=> s + Number(i.new_price||0), 0); }
+
+    function renderItems(){
+      itemsDiv.innerHTML = '';
+      if(cart.length === 0){ itemsDiv.innerHTML = '<div class="py-3 text-sm text-gray-500">Your cart is empty.</div>'; }
+      cart.forEach(i => {
+        const row = document.createElement('div');
+        row.className = 'py-2 flex items-center gap-3';
+        row.innerHTML = `
+          <img src="${i.image_url}" class="w-12 h-12 object-cover rounded"/>
+          <div class="flex-1 min-w-0">
+            <div class="text-sm text-gray-800 truncate">${i.name}</div>
+          </div>
+          <div class="text-sm font-medium text-gray-700">KES ${Number(i.new_price).toLocaleString('en-KE')}</div>`;
+        itemsDiv.appendChild(row);
+      });
+    }
+
+    function updateTotals(){
+      const sub = subtotal();
+      subEl.textContent = formatKES(sub);
+      shipEl.textContent = formatKES(shippingCost);
+      totalEl.textContent = formatKES(sub + shippingCost);
+      // Expose extra for PayPal to pick up (requires paypal.js supporting PAYPAL_EXTRA_KES)
+      window.PAYPAL_EXTRA_KES = shippingCost;
+    }
+
+    function loadSavedShipping(){
+      const saved = localStorage.getItem('shippingOption');
+      if(saved){
+        const r = shipRadios.find(x => x.value === saved);
+        if(r){ r.checked = true; shippingCost = Number(r.dataset.amount||0); }
+      } else {
+        // Default to CBD
+        const r0 = shipRadios[0];
+        if(r0){ r0.checked = true; shippingCost = Number(r0.dataset.amount||0); }
+      }
+    }
+
+    shipRadios.forEach(r => r.addEventListener('change', () => {
+      shippingCost = Number(r.dataset.amount||0);
+      localStorage.setItem('shippingOption', r.value);
+      updateTotals();
+      // re-render PayPal buttons to reflect shipping
+      try { if(window.PayPalCheckout){ window.PayPalCheckout.render('#paypal-button-container'); } } catch {}
+    }));
+
+    function getBilling(){
+      return {
+        name: document.getElementById('b-name').value.trim(),
+        email: document.getElementById('b-email').value.trim(),
+        phone: document.getElementById('b-phone').value.trim(),
+        address1: document.getElementById('b-addr1').value.trim(),
+        address2: document.getElementById('b-addr2').value.trim(),
+        city: document.getElementById('b-city').value.trim(),
+        notes: document.getElementById('b-notes').value.trim(),
+        shipping_label: shipRadios.find(x=>x.checked)?.nextElementSibling?.innerText || ''
+      };
+    }
+
+    // WhatsApp order
+    function isMobile(){ return /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent); }
+    const WHATSAPP_PHONE = '254757399339';
+    function openWhatsApp(msg){
+      const text = encodeURIComponent(msg);
+      const primary = isMobile() ? `https://wa.me/${WHATSAPP_PHONE}?text=${text}` : `https://web.whatsapp.com/send?phone=${WHATSAPP_PHONE}&text=${text}`;
+      let w = window.open(primary, '_blank');
+      if(!w){ const fb = `https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE}&text=${text}`; w = window.open(fb,'_blank'); if(!w) window.location.href = fb; }
+    }
+
+    document.getElementById('btn-wa').addEventListener('click', ()=>{
+      if(cart.length === 0){ alert('Your cart is empty.'); return; }
+      const b = getBilling();
+      if(!b.name || !b.phone || !b.address1 || !b.city){ alert('Please fill in Name, Phone, Address, and City.'); return; }
+      const lines = cart.map((it,i)=> `${i+1}. ${it.name} - KES ${Number(it.new_price).toLocaleString('en-KE')}`);
+      const msg = `Hello Tewa, I'd like to order:\n\n${lines.join('\n')}\n\nSubtotal: ${formatKES(subtotal())}\nShipping: ${b.shipping_label}\nTotal: ${formatKES(subtotal()+shippingCost)}\n\nBilling Details:\nName: ${b.name}\nPhone: ${b.phone}\nEmail: ${b.email}\nAddress: ${b.address1} ${b.address2}\nCity: ${b.city}\nNotes: ${b.notes}`;
+      openWhatsApp(msg);
+    });
+
+    // Pesapal
+    document.getElementById('btn-pesapal').addEventListener('click', async ()=>{
+      if(cart.length === 0){ alert('Your cart is empty.'); return; }
+      const b = getBilling();
+      if(!b.name || !b.phone || !b.address1 || !b.city){ alert('Please fill in Name, Phone, Address, and City.'); return; }
+      try {
+        const mod = await import('./js/pesapal.js');
+        const total = subtotal() + shippingCost;
+        await mod.startPesapalCheckout(total, cart, b);
+      } catch(e){ console.error(e); alert('Failed to start PesaPal checkout.'); }
+    });
+
+    // Init
+    renderItems();
+    loadSavedShipping();
+    updateTotals();
+
+    // Render PayPal after totals ready; re-rendered on ship changes above
+    try { if(window.PayPalCheckout){ window.PayPalCheckout.render('#paypal-button-container'); } } catch {}
+  </script>
+</body>
+</html>
