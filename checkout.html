@@ -91,6 +91,10 @@
         <div class="mt-4 space-y-2">
           <button id="btn-wa" class="w-full btn-brand text-white py-2 rounded-md">Order via WhatsApp</button>
           <button id="btn-pesapal" class="w-full border border-[var(--brand-brown)] text-[var(--brand-brown)] py-2 rounded-md hover:bg-[var(--brand-brown)] hover:text-white">Pay with PesaPal</button>
+          <button id="btn-mpesa" class="w-full flex items-center justify-center gap-2 border border-green-600 text-green-700 py-2 rounded-md hover:bg-green-600 hover:text-white">
+            <img src="/assets/mpesa1 - Copy.png" alt="M-Pesa" class="h-5">
+            <span>Pay with M-Pesa</span>
+          </button>
           <div id="paypal-button-container" class="mt-2"></div>
           <a class="block text-center mt-2 text-sm text-gray-600 hover:underline" href="shop.html">Back to shop</a>
         </div>
@@ -214,6 +218,20 @@
         const total = subtotal() + shippingCost;
         await mod.startPesapalCheckout(total, cart, b);
       } catch(e){ console.error(e); alert('Failed to start PesaPal checkout.'); }
+    });
+
+    // M-Pesa
+    document.getElementById('btn-mpesa').addEventListener('click', async ()=>{
+      if(cart.length === 0){ alert('Your cart is empty.'); return; }
+      const b = getBilling();
+      if(!b.phone){ alert('Please enter your phone number.'); return; }
+      try {
+        const mod = await import('./js/mpesa.js');
+        const total = subtotal() + shippingCost;
+        const resp = await mod.startMpesaStkPush(total, b);
+        alert('STK Push sent. Check your phone for the M-Pesa prompt.');
+        console.log('STK Response', resp);
+      } catch(e){ console.error(e); alert('Failed to initiate M-Pesa STK Push.'); }
     });
 
     // Init
